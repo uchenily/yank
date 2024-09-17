@@ -2,36 +2,42 @@
 use crate::Args;
 use clap::Parser;
 use rocket::data::{Data, ToByteUnit};
-use rocket::http::Status;
+// use rocket::http::Status;
 use rocket::request::{FromRequest, Outcome, Request};
 
 use std::fmt;
 use std::path::Path;
 
-pub struct Filename<'r>(&'r str);
+pub struct Filename<'r>(Option<&'r str>);
 
 impl<'a> fmt::Display for Filename<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.0)
+        if let Some(filename) = self.0 {
+            write!(f, "{}", filename)
+        } else {
+            write!(f, "{}", "default")
+        }
     }
 }
 
-#[derive(Debug)]
-pub enum FilenameError {
-    Missing,
-    // Invalid,
-}
+// #[derive(Debug)]
+// pub enum FilenameError {
+//     Missing,
+//     // Invalid,
+// }
 
 #[rocket::async_trait]
 impl<'r> FromRequest<'r> for Filename<'r> {
-    type Error = FilenameError;
+    // type Error = FilenameError;
+    type Error = ();
 
     async fn from_request(req: &'r Request<'_>) -> Outcome<Self, Self::Error> {
         match req.headers().get_one("X-Filename") {
             None => {
-                Outcome::Error((Status::BadRequest, FilenameError::Missing))
+                // Outcome::Error((Status::BadRequest, FilenameError::Missing))
+                Outcome::Success(Filename(None))
             }
-            Some(key) => Outcome::Success(Filename(key)),
+            Some(key) => Outcome::Success(Filename(Some(key))),
         }
     }
 }
@@ -44,7 +50,7 @@ pub async fn upload(
 ) -> Result<String, std::io::Error> {
     let args = Args::parse();
 
-    let id = filename;
+    let id = filename.to_string();
     let filepath = Path::new(&args.upload).join(format!("{}", id));
 
     // let id = PasteId::new(6);
