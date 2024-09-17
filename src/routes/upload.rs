@@ -69,7 +69,7 @@ pub async fn upload(
         .as_str()
         .contains("text")
     {
-        true => format!("/h/{id}", id = id),
+        true => format!("/h/{id}", id = id), // never be true?
         false => format!("/{id}", id = id),
     };
 
