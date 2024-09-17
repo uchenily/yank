@@ -79,7 +79,7 @@ fn rocket() -> _ {
         .merge(("port", &args.port))
         .merge(("address", &args.address))
         .merge(("template_dir", &args.upload)) // Required if embedding templates
-        .merge(Env::prefixed("BIN_").global());
+        .merge(Env::prefixed("YANK_").global());
 
     // create the upload directory, if not already created
     fs::create_dir_all(&args.upload)

@@ -6,6 +6,6 @@ use std::collections::HashMap;
 pub async fn index() -> ResponseWrapper<Template> {
     let mut map = HashMap::new();
 
-    map.insert("title", "bin");
+    map.insert("title", "yank");
     ResponseWrapper::meta_response(Template::render("index.html", &map))
 }
