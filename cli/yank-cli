@@ -1,0 +1,26 @@
+#!/bin/bash
+
+URL="${YANK_SERVER}"
+
+if [[ "$1" == "--help" || "$1" == "-h" || $# -gt 1 ]]; then
+    echo "Usage: $0 [FILEPATH]"
+    echo "Upload a file to server"
+    echo ""
+    echo "Arguments:"
+    echo "  FILEPATH    The path to the file to upload. If not provided, input is read from stdin."
+    echo ""
+    echo "Options:"
+    echo "  --help, -h  Show this help message and exit."
+    exit 0
+fi
+
+FILEPATH="$1"
+FILENAME=$(basename -- "$FILEPATH")
+EXTENSION="${FILENAME##*.}"
+
+RESPONSE=$(curl --insecure --data-binary @${FILEPATH:-/dev/stdin} -H "X-Filename: ${FILENAME}" --url $URL)
+PASTELINK="$URL$RESPONSE"
+
+[ -z "$EXTENSION" ] && \
+    echo "$PASTELINK" || \
+    echo "$PASTELINK.$EXTENSION"

@@ -37,7 +37,13 @@ impl<'r> FromRequest<'r> for Filename<'r> {
                 // Outcome::Error((Status::BadRequest, FilenameError::Missing))
                 Outcome::Success(Filename(None))
             }
-            Some(key) => Outcome::Success(Filename(Some(key))),
+            Some(key) => {
+                if key.trim().is_empty() {
+                    Outcome::Success(Filename(None))
+                } else {
+                    Outcome::Success(Filename(Some(key)))
+                }
+            }
         }
     }
 }
@@ -65,13 +71,15 @@ pub async fn upload(
         .into_file(&filepath)
         .await?;
 
-    let url = match tree_magic::from_filepath(&filepath)
-        .as_str()
-        .contains("text")
-    {
-        true => format!("/h/{id}", id = id), // never be true?
-        false => format!("/{id}", id = id),
-    };
+    // let url = match tree_magic::from_filepath(&filepath)
+    //     .as_str()
+    //     .contains("text")
+    // {
+    //     true => format!("/h/{id}", id = id), // never be true?
+    //     false => format!("/{id}", id = id),
+    // };
+
+    let url = format!("/{}", id);
 
     Ok(url)
 }
