@@ -32,10 +32,7 @@ WEB USAGE
 MOBILE USAGE
        All of the above, or
        Use the upload button.
-{% if client_desc %}
-CLI USAGE
-       Client available at /client
-{% endif %}
+
 SEE ALSO
        github.com/wantguns/bin
 " autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>

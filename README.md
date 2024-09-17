@@ -58,11 +58,6 @@ PASTELINK="$URL$RESPONSE"
     echo "$PASTELINK.$EXTENSION"
 ```
 
-You have the option to remove the `/client` description / help in the
-landing page. To show the `/client` description, run the `bin` binary
-with either `BIN_CLIENT_DESC` env variable or a `-c` flag. More on
-arguments later
-
 #### Usage
 
 It just works.
@@ -118,7 +113,6 @@ services:
     environment:
       - BIN_PORT=6163 # Defaults to 6162
       - BIN_LIMITS={form="16 MiB"}
-      - BIN_CLIENT_DESC=placeholder
     volumes:
       - ./upload:/upload  # upload folder will have your pastes
 ```
@@ -150,9 +144,6 @@ OPTIONS:
 
     -b, --binary-upload-limit <BINARY_UPLOAD_LIMIT>
             Binary uploads file size limit (in MiB) [default: 100]
-
-    -c, --client-desc
-            Include client description [env: CLIENT_DESC=]
 
     -h, --help
             Print help information
