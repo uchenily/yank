@@ -1,4 +1,7 @@
-# Bin
+# Yank
+
+This is a fork of [bin](https://github.com/wantguns/bin.git), and I want to make some custom changes according to my needs.
+
 A minimal pastebin which also accepts binary files like Images, PDFs and ships
 multiple clients.
 
