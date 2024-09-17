@@ -18,10 +18,10 @@ NAME
 ROUTES
        GET /<id>
            Get raw pastes
-       GET /p/<id> 
-           Get highlighted pastes 
-       GET /p/<id>.<ext> 
-           Get syntax highlighted pastes. 
+       GET /p/<id>
+           Get highlighted pastes
+       GET /p/<id>.<ext>
+           Get syntax highlighted pastes.
 
 WEB USAGE
        Drag a file and drop it here, or

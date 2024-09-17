@@ -12,7 +12,7 @@ pub async fn retrieve(id: PasteId<'_>) -> ResponseWrapper<File> {
     retrieve_inner(&id.to_string()).await
 }
 
-// rank 1 here because this would be more oftenly used
+// rank 1 here because this would be more often used
 #[get("/<id_ext>", rank = 1)]
 pub async fn retrieve_ext(id_ext: PasteIdSyntax<'_>) -> ResponseWrapper<File> {
     retrieve_inner(id_ext.get_fname()).await

@@ -1,6 +1,6 @@
-# Bin 
+# Bin
 A minimal pastebin which also accepts binary files like Images, PDFs and ships
-multiple clients. 
+multiple clients.
 
 It does not require you to host a SQL server and everything is self-contained in
 a statically linked binary (the docker image runs on scratch !), which makes it
@@ -16,10 +16,10 @@ You can paste
 
 - Normal Text
 
-- Paste Images from clipboard:  
+- Paste Images from clipboard:
 ![clipboard-paste](.github/files/image_clipboard.gif)
 
-- Files by drag and drop:  
+- Files by drag and drop:
 ![drag_n_drop](.github/files/drag_n_drop.gif)
 
 ### CLI
@@ -91,7 +91,7 @@ Currently, builds for the following target triples are shipped:
 - aarch64-unknown-linux-gnu (arm64)
 
 The builds shipped are statically linked, so you don't even need a libc to run
-the binary !  
+the binary !
 The docker manifest labelled
 [`wantguns/bin:latest`](https://hub.docker.com/layers/wantguns/bin/latest/images/sha256-34c19b59d098bd1420fc48f6b1f01dc250d3d8787a3786f5425efb4e74cc17f2?context=repo)
 includes the images for both amd64 and arm64 images.
@@ -122,7 +122,7 @@ services:
 
 ### Manual
 
-- Grab a copy of the binary from GH releases   
+- Grab a copy of the binary from GH releases
 OR
 - Build on your own:
 ```bash
@@ -185,24 +185,24 @@ BIN_IDENT=false
 
 ## API
 
-`GET /<id>`  
+`GET /<id>`
   Get raw pastes
 
-`GET /p/<id>`  
-  Get highlighted pastes 
+`GET /p/<id>`
+  Get highlighted pastes
 
-`GET /p/<id>.<ext> `  
+`GET /p/<id>.<ext> `
 
-  Get syntax highlighted pastes.  
+  Get syntax highlighted pastes.
   E.g. https://basedbin.fly.dev/p/foobaz.cpp should return a C++ syntax
   highlighted paste
 
-`POST /`  
+`POST /`
   Post binary data
 
 ## Design Decisions
 
-This pastebin: 
+This pastebin:
 
 - does not use a database. It lacks non-essential features like
   password-protection / automatic deletion as a result of which, it can do
@@ -211,7 +211,7 @@ This pastebin:
 - uses server sided highlighting, which ensures that everything stays light and
   snappy at the client side.
 - uses very minimal frontend because a pastebin does not need it. It focuses
-  (or atleast tries to) on getting things done in minimum amount of clicks.
+  (or at least tries to) on getting things done in minimum amount of clicks.
 
 ## Hacking
 

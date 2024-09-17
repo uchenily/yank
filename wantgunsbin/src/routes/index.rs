@@ -1,9 +1,7 @@
-use rocket_dyn_templates::Template;
-
-use std::collections::HashMap;
-
 use crate::get_parsed_args;
 use crate::models::response_wrapper::ResponseWrapper;
+use rocket_dyn_templates::Template;
+use std::collections::HashMap;
 
 #[get("/")]
 pub async fn index() -> ResponseWrapper<Template> {
