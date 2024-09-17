@@ -1,13 +1,12 @@
-use rocket::data::{Data, ToByteUnit};
-
-use std::path::Path;
-
-use crate::get_parsed_args;
 use crate::models::paste_id::PasteId;
+use crate::Args;
+use clap::Parser;
+use rocket::data::{Data, ToByteUnit};
+use std::path::Path;
 
 #[post("/", data = "<paste>")]
 pub async fn upload(paste: Data<'_>) -> Result<String, std::io::Error> {
-    let args = get_parsed_args();
+    let args = Args::parse();
     let id = PasteId::new(6);
 
     let filepath = Path::new(&args.upload).join(format!("{id}", id = id));

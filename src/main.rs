@@ -73,17 +73,13 @@ pub struct Args {
     client_desc: bool,
 }
 
-pub fn get_parsed_args() -> Args {
-    Args::parse()
-}
-
 pub fn get_upload_dir() -> PathBuf {
-    get_parsed_args().upload
+    Args::parse().upload
 }
 
 #[launch]
 fn rocket() -> _ {
-    let args = get_parsed_args();
+    let args = Args::parse();
 
     // Custom Fairings and Providers
     let shield = Shield::default().disable::<NoSniff>();

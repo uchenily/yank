@@ -1,5 +1,6 @@
-use crate::get_parsed_args;
 use crate::models::response_wrapper::ResponseWrapper;
+use crate::Args;
+use clap::Parser;
 use rocket_dyn_templates::Template;
 use std::collections::HashMap;
 
@@ -8,7 +9,7 @@ pub async fn index() -> ResponseWrapper<Template> {
     let mut map = HashMap::new();
 
     // whether to include `/client` info
-    let client_desc = match get_parsed_args().client_desc {
+    let client_desc = match Args::parse().client_desc {
         true => "placeholder",
         false => "",
     };
