@@ -1,15 +1,54 @@
-use crate::models::paste_id::PasteId;
+// use crate::models::paste_id::PasteId;
 use crate::Args;
 use clap::Parser;
 use rocket::data::{Data, ToByteUnit};
+use rocket::http::Status;
+use rocket::request::{FromRequest, Outcome, Request};
+
+use std::fmt;
 use std::path::Path;
 
-#[post("/", data = "<paste>")]
-pub async fn upload(paste: Data<'_>) -> Result<String, std::io::Error> {
-    let args = Args::parse();
-    let id = PasteId::new(6);
+pub struct Filename<'r>(&'r str);
 
-    let filepath = Path::new(&args.upload).join(format!("{id}", id = id));
+impl<'a> fmt::Display for Filename<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+#[derive(Debug)]
+pub enum FilenameError {
+    Missing,
+    // Invalid,
+}
+
+#[rocket::async_trait]
+impl<'r> FromRequest<'r> for Filename<'r> {
+    type Error = FilenameError;
+
+    async fn from_request(req: &'r Request<'_>) -> Outcome<Self, Self::Error> {
+        match req.headers().get_one("X-Filename") {
+            None => {
+                Outcome::Error((Status::BadRequest, FilenameError::Missing))
+            }
+            Some(key) => Outcome::Success(Filename(key)),
+        }
+    }
+}
+
+// curl --data-binary @test.file  --url localhost:6162 -H "X-Filename: test.file"
+#[post("/", data = "<paste>")]
+pub async fn upload(
+    paste: Data<'_>,
+    filename: Filename<'_>,
+) -> Result<String, std::io::Error> {
+    let args = Args::parse();
+
+    let id = filename;
+    let filepath = Path::new(&args.upload).join(format!("{}", id));
+
+    // let id = PasteId::new(6);
+    // let filepath = Path::new(&args.upload).join(format!("{id}", id = id));
 
     paste
         .open(args.binary_upload_limit.mebibytes())
@@ -20,7 +59,7 @@ pub async fn upload(paste: Data<'_>) -> Result<String, std::io::Error> {
         .as_str()
         .contains("text")
     {
-        true => format!("/p/{id}", id = id),
+        true => format!("/h/{id}", id = id),
         false => format!("/{id}", id = id),
     };
 
