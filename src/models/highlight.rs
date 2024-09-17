@@ -10,7 +10,7 @@ static SYNTAXES: &[u8] =
 static THEMES: &[u8] =
     include_bytes!("../../resources/themes/ayu_dark.tmTheme");
 
-pub fn get_pretty_body(path: &Path, ext: &str) -> std::io::Result<String> {
+pub fn get_highlight_body(path: &Path, ext: &str) -> std::io::Result<String> {
     let ss: SyntaxSet = syntect::dumps::from_binary(SYNTAXES);
 
     let mut theme_cursor = std::io::Cursor::new(THEMES);

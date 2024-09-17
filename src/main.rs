@@ -34,15 +34,16 @@ fn setup_tera_engine(tera: &mut Tera) {
     // Register templates
     let base_html = EmbeddedTemplates::get("base.html.tera").unwrap();
     let index_html = EmbeddedTemplates::get("index.html.tera").unwrap();
-    let pretty_html = EmbeddedTemplates::get("pretty.html.tera").unwrap();
+    let highlight_html =
+        EmbeddedTemplates::get("highlight.html.tera").unwrap();
 
     // and shove them in the tera instance
     tera.add_raw_templates(vec![
         ("base.html", std::str::from_utf8(&base_html.data).unwrap()),
         ("index.html", std::str::from_utf8(&index_html.data).unwrap()),
         (
-            "pretty.html",
-            std::str::from_utf8(&pretty_html.data).unwrap(),
+            "highlight.html",
+            std::str::from_utf8(&highlight_html.data).unwrap(),
         ),
     ])
     .expect("Could not add raw templates to the tera instance");
@@ -95,8 +96,8 @@ fn rocket() -> _ {
                 routes::submit::submit,
                 routes::retrieve::retrieve,
                 routes::retrieve::retrieve_ext,
-                routes::pretty_retrieve::pretty_retrieve,
-                routes::pretty_retrieve::pretty_retrieve_ext
+                routes::highlight_retrieve::highlight_retrieve,
+                routes::highlight_retrieve::highlight_retrieve_ext
             ],
         )
         .attach(shield)

@@ -2,7 +2,7 @@ use std::borrow::Cow;
 
 use rocket::request::FromParam;
 
-pub struct PasteIdSyntax<'a> {
+pub struct PasteIdWithExt<'a> {
     syn_id: Cow<'a, str>,
 }
 
@@ -20,7 +20,7 @@ fn valid_syn(syn: &str) -> bool {
     flag
 }
 
-impl<'a> PasteIdSyntax<'a> {
+impl<'a> PasteIdWithExt<'a> {
     pub fn get_fname(&self) -> &str {
         self.syn_id.split('.').collect::<Vec<&str>>()[0]
     }
@@ -29,12 +29,12 @@ impl<'a> PasteIdSyntax<'a> {
     }
 }
 
-impl<'a> FromParam<'a> for PasteIdSyntax<'a> {
+impl<'a> FromParam<'a> for PasteIdWithExt<'a> {
     type Error = &'a str;
 
     fn from_param(param: &'a str) -> Result<Self, Self::Error> {
         match valid_syn(param) {
-            true => Ok(PasteIdSyntax {
+            true => Ok(PasteIdWithExt {
                 syn_id: Cow::Borrowed(param),
             }),
             false => Err(param),

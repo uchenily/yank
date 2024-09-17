@@ -2,8 +2,8 @@ use std::fs::File;
 use std::io::ErrorKind::NotFound;
 use std::path::Path;
 
+use crate::models::highlight_syntax::PasteIdWithExt;
 use crate::models::paste_id::PasteId;
-use crate::models::pretty_syntax::PasteIdSyntax;
 use crate::models::response_wrapper::ResponseWrapper;
 use crate::Args;
 use clap::Parser;
@@ -15,7 +15,9 @@ pub async fn retrieve(id: PasteId<'_>) -> ResponseWrapper<File> {
 
 // rank 1 here because this would be more often used
 #[get("/<id_ext>", rank = 1)]
-pub async fn retrieve_ext(id_ext: PasteIdSyntax<'_>) -> ResponseWrapper<File> {
+pub async fn retrieve_ext(
+    id_ext: PasteIdWithExt<'_>,
+) -> ResponseWrapper<File> {
     retrieve_inner(id_ext.get_fname()).await
 }
 

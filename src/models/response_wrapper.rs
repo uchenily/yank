@@ -8,7 +8,7 @@ use std::time::SystemTime;
 
 pub enum ResponseWrapper<R> {
     MetaInterfaceResponse(R),
-    PrettyPasteContentResponse(R, SystemTime),
+    HighlightPasteContentResponse(R, SystemTime),
     RawPasteContentResponse(R, SystemTime),
     Redirect(Box<Redirect>),
     NotFound(String),
@@ -20,8 +20,11 @@ impl<'r, 'o: 'r, R: Responder<'r, 'o>> ResponseWrapper<R> {
         Self::MetaInterfaceResponse(responder)
     }
 
-    pub fn pretty_paste_response(responder: R, modified: SystemTime) -> Self {
-        Self::PrettyPasteContentResponse(responder, modified)
+    pub fn highlight_paste_response(
+        responder: R,
+        modified: SystemTime,
+    ) -> Self {
+        Self::HighlightPasteContentResponse(responder, modified)
     }
 
     pub fn raw_paste_response(responder: R, modified: SystemTime) -> Self {
@@ -62,7 +65,7 @@ impl<'r, 'o: 'r, R: Responder<'r, 'o>> Responder<'r, 'o>
                 )
                 .ok(),
 
-            PrettyPasteContentResponse(sup, modified) => response
+            HighlightPasteContentResponse(sup, modified) => response
                 .join(sup.respond_to(request)?)
                 .raw_header("Last-Modified", http_strftime(modified))
                 .raw_header(
