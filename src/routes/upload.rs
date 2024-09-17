@@ -1,4 +1,4 @@
-// use crate::models::paste_id::PasteId;
+use crate::models::paste_id::PasteId;
 use crate::Args;
 use clap::Parser;
 use rocket::data::{Data, ToByteUnit};
@@ -50,11 +50,15 @@ pub async fn upload(
 ) -> Result<String, std::io::Error> {
     let args = Args::parse();
 
-    let id = filename.to_string();
-    let filepath = Path::new(&args.upload).join(format!("{}", id));
+    let id = match filename.0 {
+        Some(filename) => filename.to_string(),
+        None => {
+            let id = PasteId::new(8);
+            id.to_string()
+        }
+    };
 
-    // let id = PasteId::new(6);
-    // let filepath = Path::new(&args.upload).join(format!("{id}", id = id));
+    let filepath = Path::new(&args.upload).join(format!("{}", id));
 
     paste
         .open(args.binary_upload_limit.mebibytes())
