@@ -16,11 +16,8 @@ fi
 
 FILEPATH="$1"
 FILENAME=$(basename -- "$FILEPATH")
-EXTENSION="${FILENAME##*.}"
 
 RESPONSE=$(curl --insecure --data-binary @${FILEPATH:-/dev/stdin} -H "X-Filename: ${FILENAME}" --url $URL)
 PASTELINK="$URL$RESPONSE"
 
-[ -z "$EXTENSION" ] && \
-    echo "$PASTELINK" || \
-    echo "$PASTELINK.$EXTENSION"
+echo "$PASTELINK"
