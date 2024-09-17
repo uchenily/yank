@@ -228,3 +228,8 @@ This pastebin:
   builds. You can check out the [config file](.cargo/config.toml) to know more.
 - Read the [buildci](.github/workflows/buildci.yml) to know how the project is
   statically compiled for two architectures.
+
+
+## Similar Projects
+
+- [rustypaste](https://github.com/orhun/rustypaste): A minimal file upload/pastebin service.
