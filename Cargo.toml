@@ -1,13 +1,13 @@
 [package]
-name = "bin"
-version = "2.2.1"
-authors = ["Gunwant Jain <mail@wantguns.dev>"]
+name = "yank"
+version = "0.0.1"
+authors = ["Gunwant Jain <mail@wantguns.dev>", "ivin <uchenily@qq.com>"]
 edition = "2021"
 build = "build.rs"
 
 [dependencies]
 rand = "0.8.4"
-rocket = "0.5.0-rc.1"
+rocket = "0.5.1"
 tree_magic = "0.2.3"
 syntect = "4.6.0"
 rust-embed="6.3.0"
@@ -17,6 +17,5 @@ sha256 = "1"
 time = { version = "0.3", features = ["formatting"] }
 
 [dependencies.rocket_dyn_templates]
-version = "0.1.0-rc.1"
+version = "0.2.0"
 features = ["tera"]
-
