@@ -6,11 +6,12 @@ use std::collections::HashMap;
 use std::io::ErrorKind::{InvalidData, NotFound};
 use std::path::Path;
 
-use crate::get_upload_dir;
 use crate::models::paste_id::PasteId;
 use crate::models::pretty::get_pretty_body;
 use crate::models::pretty_syntax::PasteIdSyntax;
 use crate::models::response_wrapper::ResponseWrapper;
+use crate::Args;
+use clap::Parser;
 
 #[get("/p/<id>", rank = 2)]
 pub async fn pretty_retrieve(id: PasteId<'_>) -> ResponseWrapper<Template> {
@@ -31,7 +32,7 @@ pub async fn pretty_retrieve_inner(
     id: &str,
     ext: &str,
 ) -> ResponseWrapper<Template> {
-    let filepath = Path::new(&get_upload_dir()).join(id);
+    let filepath = Path::new(&Args::parse().upload).join(id);
 
     let modified_date =
         match fs::metadata(&filepath).and_then(|m| m.modified()) {

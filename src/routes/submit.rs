@@ -2,8 +2,9 @@ use rocket::{form::Form, response::Redirect};
 
 use std::{fs, path::Path};
 
-use crate::get_upload_dir;
 use crate::models::paste_id::PasteId;
+use crate::Args;
+use clap::Parser;
 
 #[derive(FromForm)]
 pub struct PasteIdForm {
@@ -15,7 +16,8 @@ pub struct PasteIdForm {
 pub async fn submit(paste: Form<PasteIdForm>) -> Redirect {
     let id = PasteId::new(6);
 
-    let filepath = Path::new(&get_upload_dir()).join(format!("{id}", id = id));
+    let filepath =
+        Path::new(&Args::parse().upload).join(format!("{id}", id = id));
     let content = &paste.content;
     let ext = &paste.ext;
 

@@ -1,6 +1,6 @@
 #[macro_use]
 extern crate rocket;
-use std::{fs, net::IpAddr, path::PathBuf};
+use std::{fs, net::IpAddr};
 
 use clap::Parser;
 use once_cell::sync::Lazy;
@@ -71,10 +71,6 @@ pub struct Args {
     /// Include client description
     #[clap(short, long, env)]
     client_desc: bool,
-}
-
-pub fn get_upload_dir() -> PathBuf {
-    Args::parse().upload
 }
 
 #[launch]
