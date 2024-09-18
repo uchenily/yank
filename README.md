@@ -227,3 +227,4 @@ This pastebin:
 ## Similar Projects
 
 - [rustypaste](https://github.com/orhun/rustypaste): A minimal file upload/pastebin service.
+- [transfer.sh](https://github.com/dutchcoders/transfer.sh): Easy and fast file sharing from the command-line.
