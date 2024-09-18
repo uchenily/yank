@@ -15,9 +15,13 @@ if [[ "$1" == "--help" || "$1" == "-h" || $# -gt 1 ]]; then
 fi
 
 FILEPATH="$1"
-FILENAME=$(basename -- "$FILEPATH")
+if [[ -f "$FILEPATH" ]]; then
+    FILENAME=$(basename -- "$FILEPATH")
 
-RESPONSE=$(curl --insecure --data-binary @${FILEPATH:-/dev/stdin} -H "X-Filename: ${FILENAME}" --url $URL)
-PASTELINK="$URL$RESPONSE"
+    RESPONSE=$(curl --insecure --data-binary @${FILEPATH:-/dev/stdin} -H "X-Filename: ${FILENAME}" --url $URL)
+    PASTELINK="$URL$RESPONSE"
 
-echo "$PASTELINK"
+    echo "$PASTELINK"
+else
+    echo "$FILEPATH is not a file"
+fi
