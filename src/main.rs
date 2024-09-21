@@ -68,6 +68,9 @@ pub struct Args {
     /// Binary uploads file size limit (in MiB)
     #[clap(short, long, default_value_t = 100)]
     binary_upload_limit: i32,
+
+    #[clap(short, long, default_value = "")]
+    fixed: String,
 }
 
 #[launch]

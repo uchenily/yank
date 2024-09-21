@@ -14,7 +14,13 @@ pub struct PasteIdForm {
 
 #[post("/submit", data = "<paste>")]
 pub async fn submit(paste: Form<PasteIdForm>) -> Redirect {
-    let id = PasteId::new(6);
+    let args = Args::parse();
+
+    let id = if !args.fixed.is_empty() {
+        args.fixed
+    } else {
+        PasteId::new(8).to_string()
+    };
 
     let filepath =
         Path::new(&Args::parse().upload).join(format!("{id}", id = id));

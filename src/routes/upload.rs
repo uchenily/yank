@@ -57,10 +57,17 @@ pub async fn upload(
     let args = Args::parse();
 
     let id = match filename.0 {
+        // If has header "X-Filename", use this name
         Some(filename) => filename.to_string(),
         None => {
-            let id = PasteId::new(8);
-            id.to_string()
+            if !args.fixed.is_empty() {
+                // Use fixed name
+                args.fixed
+            } else {
+                // Generate random name
+                let id = PasteId::new(8);
+                id.to_string()
+            }
         }
     };
 
